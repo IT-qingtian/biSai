@@ -186,6 +186,7 @@ const handleSelect = (key: string) => {
         flex: 1;
 
         .result-item {
+            cursor: pointer;
             background: white;
             border-radius: 8px;
             padding: 1.5rem;

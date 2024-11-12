@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const logoUrl = ref('./logo.png') // 请确保在 public 目录下放置 logo 图片
+const logoUrl = ref('/logo.png') // 请确保在 public 目录下放置 logo 图片
 
 </script>
 
@@ -39,9 +39,11 @@ const logoUrl = ref('./logo.png') // 请确保在 public 目录下放置 logo �
     position: sticky;
     top: 0;
     z-index: 100;
+    height: var(--header-height);
 }
 
 .header-content {
+    background-color: white;
     /* max-width: 1200px; */
     margin: 0 auto;
     padding: 1rem 50px;

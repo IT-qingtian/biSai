@@ -32,7 +32,7 @@ const newsItems = ref([
         date: '2024-03-20',
         summary: '最新研究表明，经常体验清醒梦的人在创造力测试中表现更优异...',
         image: 'https://www.lzdxdyyy.com/UploadFile/T_2/CmsType/20230223/2302231830028678.jpg',
-        link: '/news/1'
+        link: '/article/1'
     },
     {
         id: 2,
@@ -102,12 +102,12 @@ const navItems = ref([
         children: [
             {
                 title: '近期活动展示',
-                link: '/consultation/head',
+                link: '/activities/recent',
                 icon: 'Timer'  // 使用时钟图标
             },
             {
                 title: '过往活动',
-                link: '/consultation/head',
+                link: '/activities/past',
                 icon: 'Collection'  // 使用收藏图标
             },
         ]
@@ -120,12 +120,12 @@ const navItems = ref([
         children: [
             {
                 title: '文献浏览',
-                link: '/consultation/head',
+                link: '/doc/literature',
                 icon: 'Document'  // 使用文档图标
             },
             {
                 title: '论坛畅言',
-                link: '/consultation/head',
+                link: '/dom/forum',
                 icon: 'ChatDotRound'  // 使用聊天图标
             },
         ]
