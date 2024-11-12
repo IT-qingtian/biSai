@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const logoUrl = ref('/logo.png') // 请确保在 public 目录下放置 logo 图片
 
 </script>
@@ -8,7 +10,7 @@ const logoUrl = ref('/logo.png') // 请确保在 public 目录下放置 logo 图
 <template>
     <header class="header">
         <div class="header-content">
-            <div class="logo-container">
+            <div class="logo-container" @click="router.push('/')">
                 <img :src="logoUrl" alt="青梦团队 Logo" class="logo">
                 <div class="logo-text">
                     <h1 class="logo-cn">青梦团队</h1>
@@ -21,7 +23,7 @@ const logoUrl = ref('/logo.png') // 请确保在 public 目录下放置 logo 图
                 <router-link to="/services" class="nav-item">服务项目</router-link>
                 <router-link to="/news" class="nav-item">新闻动态</router-link>
                 <router-link to="/contact" class="nav-item">联系我们</router-link>
-                <router-link to="/profile" class="nav-item user-profile">
+                <router-link to="/user" class="nav-item user-profile">
                     <el-icon class="user-icon">
                         <User />
                     </el-icon>
@@ -32,9 +34,9 @@ const logoUrl = ref('/logo.png') // 请确保在 public 目录下放置 logo 图
     </header>
 </template>
 
-<style scoped lang="less">
+<style scoped>
 .header {
-    background-color: var(--bg-white);
+    background-color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
@@ -43,17 +45,16 @@ const logoUrl = ref('/logo.png') // 请确保在 public 目录下放置 logo 图
 }
 
 .header-content {
-    background-color: white;
-    /* max-width: 1200px; */
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 50px;
-    box-sizing: border-box;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .logo-container {
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 1rem;

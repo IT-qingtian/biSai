@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { Document, Picture } from '@element-plus/icons-vue'
+import { Document, Picture } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
@@ -60,7 +60,7 @@ const handleImageUpload = (file: File) => {
         ElMessage.error('请上传图片文件')
         return false
     }
-    
+
     if (file.size > 5 * 1024 * 1024) {
         ElMessage.error('图片大小不能超过5MB')
         return false
@@ -99,10 +99,10 @@ const publishPost = () => {
         ElMessage.warning('请输入内容')
         return
     }
-    
+
     // TODO: 调用API发布帖子
     console.log('发布帖子:', postForm.value)
-    
+
     ElMessage.success('发布成功')
     router.push('/dom/forum')
 }
@@ -126,54 +126,38 @@ const cancelPublish = () => {
             <div class="post-form">
                 <!-- 标题输入 -->
                 <div class="form-item">
-                    <el-input v-model="postForm.title" 
-                        placeholder="请输入标题（5-50字）" 
-                        maxlength="50"
-                        show-word-limit
-                        :rows="2"
-                        type="text"
-                        class="title-input" />
+                    <el-input v-model="postForm.title" placeholder="请输入标题（5-50字）" maxlength="50" show-word-limit
+                        :rows="2" type="text" class="title-input" />
                 </div>
 
                 <!-- 内容输入 -->
                 <div class="form-item">
-                    <el-input v-model="postForm.content" 
-                        type="textarea" 
-                        placeholder="请输入正文内容..." 
-                        :rows="12"
-                        maxlength="10000"
-                        show-word-limit
-                        resize="none" />
+                    <el-input v-model="postForm.content" type="textarea" placeholder="请输入正文内容..." :rows="12"
+                        maxlength="10000" show-word-limit resize="none" />
                 </div>
 
                 <!-- 标签选择 -->
                 <div class="form-item">
                     <div class="section-title">
-                        <el-icon><Document /></el-icon>
+                        <el-icon>
+                            <Document />
+                        </el-icon>
                         <span>添加标签</span>
                     </div>
                     <div class="tags-container">
                         <div class="available-tags">
-                            <el-tag v-for="tag in availableTags" 
-                                :key="tag"
-                                :class="{ active: postForm.tags.includes(tag) }"
-                                @click="addTag(tag)"
-                                class="tag-item">
+                            <el-tag v-for="tag in availableTags" :key="tag"
+                                :class="{ active: postForm.tags.includes(tag) }" @click="addTag(tag)" class="tag-item">
                                 {{ tag }}
                             </el-tag>
                         </div>
                         <div class="custom-tag">
-                            <el-input v-model="newTag" 
-                                placeholder="自定义标签" 
-                                @keyup.enter="addTag(newTag)"
+                            <el-input v-model="newTag" placeholder="自定义标签" @keyup.enter="addTag(newTag)"
                                 maxlength="10" />
                             <el-button @click="addTag(newTag)">添加</el-button>
                         </div>
                         <div class="selected-tags" v-if="postForm.tags.length">
-                            <el-tag v-for="tag in postForm.tags" 
-                                :key="tag"
-                                closable
-                                @close="removeTag(tag)">
+                            <el-tag v-for="tag in postForm.tags" :key="tag" closable @close="removeTag(tag)">
                                 {{ tag }}
                             </el-tag>
                         </div>
@@ -183,17 +167,18 @@ const cancelPublish = () => {
                 <!-- 图片上传 -->
                 <div class="form-item">
                     <div class="section-title">
-                        <el-icon><Picture /></el-icon>
+                        <el-icon>
+                            <Picture />
+                        </el-icon>
                         <span>添加图片</span>
                     </div>
                     <div class="images-container">
-                        <el-upload
-                            :auto-upload="false"
-                            :show-file-list="false"
-                            accept="image/*"
-                            :on-change="(file) => handleImageUpload(file.raw!)">
+                        <el-upload :auto-upload="false" :show-file-list="false" accept="image/*"
+                            :on-change="(file: any) => handleImageUpload(file.raw!)">
                             <el-button type="primary" plain>
-                                <el-icon><Picture /></el-icon>
+                                <el-icon>
+                                    <Picture />
+                                </el-icon>
                                 上传图片
                             </el-button>
                             <template #tip>
@@ -201,15 +186,10 @@ const cancelPublish = () => {
                             </template>
                         </el-upload>
                         <div class="image-preview" v-if="postForm.images.length">
-                            <div v-for="(image, index) in postForm.images" 
-                                :key="index"
-                                class="image-item">
+                            <div v-for="(image, index) in postForm.images" :key="index" class="image-item">
                                 <img :src="image" @click="previewImage(image)">
                                 <div class="image-actions">
-                                    <el-button type="danger" 
-                                        circle
-                                        size="small"
-                                        @click="removeImage(index)">
+                                    <el-button type="danger" circle size="small" @click="removeImage(index)">
                                         ×
                                     </el-button>
                                 </div>
@@ -421,4 +401,4 @@ const cancelPublish = () => {
         }
     }
 }
-</style> 
+</style>

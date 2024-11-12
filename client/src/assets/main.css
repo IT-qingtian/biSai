@@ -1,14 +1,22 @@
 :root {
-  --primary-color: #1890ff;  /* 主题蓝色 */
-  --text-color: #333333;     /* 主要文字颜色 */
-  --text-light: #666666;     /* 次要文字颜色 */
-  --border-color: #e8e8e8;   /* 边框颜色 */
-  --bg-light: #f5f5f5;       /* 浅色背景 */
-  --bg-white: #ffffff;       /* 白色背景 */
-  --link-hover: #40a9ff;     /* 链接悬浮颜色 */
+  --primary-color: #1890ff;
+  /* 主题蓝色 */
+  --text-color: #333333;
+  /* 主要文字颜色 */
+  --text-light: #666666;
+  /* 次要文字颜色 */
+  --border-color: #e8e8e8;
+  /* 边框颜色 */
+  --bg-light: #f5f5f5;
+  /* 浅色背景 */
+  --bg-white: #ffffff;
+  /* 白色背景 */
+  --link-hover: #40a9ff;
+  /* 链接悬浮颜色 */
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   min-width: 1920px;
@@ -24,4 +32,4 @@ html, body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-} 
+}

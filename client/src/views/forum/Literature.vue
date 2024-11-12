@@ -214,8 +214,7 @@ const handleDownload = (literature: Literature) => {
             <!-- 分类导航 -->
             <div class="category-nav">
                 <div class="category-scroll">
-                    <button v-for="category in categories" 
-                        :key="category"
+                    <button v-for="category in categories" :key="category"
                         :class="['category-btn', { active: currentCategory === category }]"
                         @click="currentCategory = category">
                         {{ category }}
@@ -226,10 +225,8 @@ const handleDownload = (literature: Literature) => {
             <!-- 瀑布流布局 -->
             <div class="masonry-grid">
                 <!-- 特色文献 -->
-                <div v-for="item in filteredLiteratures.filter(l => l.highlight)" 
-                    :key="item.id" 
-                    class="masonry-item featured"
-                    @click="showPreview(item)">
+                <div v-for="item in filteredLiteratures.filter(l => l.highlight)" :key="item.id"
+                    class="masonry-item featured" @click="showPreview(item)">
                     <div class="card-image">
                         <el-image :src="item.coverImage" fit="cover" />
                         <div class="image-overlay">
@@ -243,19 +240,19 @@ const handleDownload = (literature: Literature) => {
                 </div>
 
                 <!-- 普通文献 -->
-                <div v-for="item in filteredLiteratures.filter(l => !l.highlight)" 
-                    :key="item.id" 
-                    class="masonry-item"
+                <div v-for="item in filteredLiteratures.filter(l => !l.highlight)" :key="item.id" class="masonry-item"
                     @click="showPreview(item)">
                     <div class="card-content">
                         <div class="card-header">
                             <span class="category-tag">{{ item.category }}</span>
                             <h3>{{ item.title }}</h3>
                         </div>
-                        
+
                         <div class="card-meta">
                             <div class="authors">
-                                <el-icon><User /></el-icon>
+                                <el-icon>
+                                    <User />
+                                </el-icon>
                                 {{ item.authors.join(', ') }}
                             </div>
                             <div class="journal">
@@ -267,16 +264,17 @@ const handleDownload = (literature: Literature) => {
 
                         <div class="card-footer">
                             <div class="keywords">
-                                <el-tag v-for="keyword in item.keywords" 
-                                    :key="keyword" 
-                                    size="small"
-                                    effect="plain">
+                                <el-tag v-for="keyword in item.keywords" :key="keyword" size="small" effect="plain">
                                     {{ keyword }}
                                 </el-tag>
                             </div>
                             <div class="stats">
-                                <span><el-icon><View /></el-icon>{{ item.views }}</span>
-                                <span><el-icon><Download /></el-icon>{{ item.downloads }}</span>
+                                <span><el-icon>
+                                        <View />
+                                    </el-icon>{{ item.views }}</span>
+                                <span><el-icon>
+                                        <Download />
+                                    </el-icon>{{ item.downloads }}</span>
                             </div>
                         </div>
                     </div>
@@ -285,11 +283,7 @@ const handleDownload = (literature: Literature) => {
         </div>
 
         <!-- 预览对话框 -->
-        <el-dialog 
-            v-model="previewVisible"
-            :title="currentLiterature?.title"
-            width="60%"
-            class="preview-dialog">
+        <el-dialog v-model="previewVisible" :title="currentLiterature?.title" width="60%" class="preview-dialog">
             <div v-if="currentLiterature" class="preview-content">
                 <div class="preview-header">
                     <div class="preview-meta">
@@ -301,12 +295,9 @@ const handleDownload = (literature: Literature) => {
                             <span class="preview-date">{{ currentLiterature.publishDate }}</span>
                         </div>
                     </div>
-                    
+
                     <div class="preview-keywords">
-                        <el-tag v-for="keyword in currentLiterature.keywords" 
-                            :key="keyword" 
-                            size="small"
-                            effect="plain"
+                        <el-tag v-for="keyword in currentLiterature.keywords" :key="keyword" size="small" effect="plain"
                             class="keyword">
                             {{ keyword }}
                         </el-tag>
@@ -320,7 +311,9 @@ const handleDownload = (literature: Literature) => {
 
                 <div class="preview-actions">
                     <el-button type="primary" @click="handleDownload(currentLiterature)">
-                        <el-icon><Download /></el-icon>
+                        <el-icon>
+                            <Download />
+                        </el-icon>
                         下载全文
                     </el-button>
                 </div>
@@ -380,7 +373,7 @@ const handleDownload = (literature: Literature) => {
         gap: 1rem;
         overflow-x: auto;
         padding: 0.5rem;
-        
+
         &::-webkit-scrollbar {
             display: none;
         }
@@ -449,7 +442,7 @@ const handleDownload = (literature: Literature) => {
             .image-overlay {
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8));
+                background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
                 padding: 2rem;
                 display: flex;
                 flex-direction: column;
@@ -464,7 +457,7 @@ const handleDownload = (literature: Literature) => {
                 }
 
                 p {
-                    color: rgba(255,255,255,0.9);
+                    color: rgba(255, 255, 255, 0.9);
                     font-size: 1rem;
                     line-height: 1.6;
                 }
@@ -573,7 +566,7 @@ const handleDownload = (literature: Literature) => {
 
     .preview-meta {
         margin-bottom: 1rem;
-        
+
         .preview-authors {
             color: #606266;
             margin-bottom: 0.5rem;
@@ -629,4 +622,4 @@ const handleDownload = (literature: Literature) => {
         }
     }
 }
-</style> 
+</style>

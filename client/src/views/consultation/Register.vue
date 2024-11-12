@@ -1,162 +1,143 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref } from 'vue'
 
-interface Message {
-    id: number
-    type: 'system' | 'user' | 'doctor'
-    content: string
-    options?: Option[]
-    timestamp: string
+// 定义医生类型接口
+interface Doctor {
+    id: number;
+    name: string;
+    title: string;
+    department: string;
+    specialty: string;
+    avatar: string;
+    schedule: {
+        date: string;
+        periods: Array<{
+            time: string;
+            available: boolean;
+        }>;
+    }[];
 }
 
-interface Option {
-    id: number
-    text: string
-    next?: number // 下一个消息的ID
-}
-
-// 聊天消息数据
-const messages = ref<Message[]>([
+// 医生列表数据
+const doctors = ref<Doctor[]>([
     {
         id: 1,
-        type: 'system',
-        content: '欢迎来到在线问诊，我是您的智能助手。请选择您想咨询的问题类型：',
-        options: [
-            { id: 1, text: '咨询感冒相关症状', next: 2 },
-            { id: 2, text: '咨询慢性病管理', next: 3 },
-            { id: 3, text: '咨询心理健康问题', next: 4 }
-        ],
-        timestamp: '09:00'
+        name: '张医生',
+        title: '主任医师',
+        department: '内科',
+        specialty: '心血管疾病，高血压，冠心病',
+        avatar: 'https://example.com/avatar1.jpg',
+        schedule: [
+            {
+                date: '2024-03-25',
+                periods: [
+                    { time: '09:00', available: true },
+                    { time: '10:00', available: false },
+                    { time: '11:00', available: true },
+                ]
+            },
+            // 可以添加更多日期
+        ]
     },
-    {
-        id: 2,
-        type: 'doctor',
-        content: '了解到您想咨询感冒症状，请告诉我您的具体症状：',
-        options: [
-            { id: 1, text: '发烧', next: 5 },
-            { id: 2, text: '咳嗽', next: 6 },
-            { id: 3, text: '头痛', next: 7 },
-            { id: 4, text: '多个症状', next: 8 }
-        ],
-        timestamp: '09:01'
-    },
-    {
-        id: 3,
-        type: 'doctor',
-        content: '关于慢性病管理，请选择您需要咨询的具体问题：',
-        options: [
-            { id: 1, text: '高血压', next: 9 },
-            { id: 2, text: '糖尿病', next: 10 },
-            { id: 3, text: '心脏病', next: 11 }
-        ],
-        timestamp: '09:01'
-    }
+    // 可以添加更多医生
 ])
 
-// 当前显示的消息列表
-const visibleMessages = ref<Message[]>([messages.value[0]])
-
-// 处理选项点击
-const handleOptionClick = (option: Option) => {
-    // 添加用户选择的消息
-    visibleMessages.value.push({
-        id: Date.now(),
-        type: 'user',
-        content: option.text,
-        timestamp: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
-    })
-
-    // 如果有下一条消息，找到并添加
-    if (option.next) {
-        const nextMessage = messages.value.find(m => m.id === option.next)
-        if (nextMessage) {
-            setTimeout(() => {
-                visibleMessages.value.push({
-                    ...nextMessage,
-                    timestamp: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
-                })
-                // 滚动到底部
-                scrollToBottom()
-            }, 500)
-        }
-    }
-}
-
-// 滚动到底部
-const chatContainer = ref<HTMLElement | null>(null)
-const scrollToBottom = () => {
-    setTimeout(() => {
-        if (chatContainer.value) {
-            chatContainer.value.scrollTo({
-                top: chatContainer.value.scrollHeight,
-                behavior: 'smooth'
-            })
-        }
-    }, 100)
-}
-
-// 监听消息变化
-watch(() => visibleMessages.value.length, () => {
-    scrollToBottom()
+// 筛选条件
+const filters = ref({
+    department: '',
+    date: ''
 })
 
-// 在组件挂载时也滚动到底部
-onMounted(() => {
-    scrollToBottom()
-})
+// 当前选中的医生
+const selectedDoctor = ref<Doctor | null>(null)
+
+// 处理预约
+const handleAppointment = (doctor: Doctor, date: string, time: string) => {
+    console.log('预约:', doctor.name, date, time)
+}
 </script>
 
 <template>
-    <div class="chat-page">
+    <div class="register-page">
         <!-- 页面标题 -->
         <div class="page-header">
             <div class="header-content">
-                <h2>智能问诊</h2>
-                <p>24小时在线，专业医生为您解答</p>
+                <h2>挂号咨询</h2>
+                <p>选择专业医生，在线预约咨询</p>
             </div>
         </div>
 
-        <!-- 聊天区域 -->
-        <div class="chat-container" ref="chatContainer">
-            <div class="messages">
-                <div v-for="message in visibleMessages" :key="message.id"
-                    :class="['message', `message-${message.type}`]">
-                    <div class="message-content">
-                        <div class="message-text">{{ message.content }}</div>
-                        <div class="message-time">{{ message.timestamp }}</div>
-                    </div>
-                    <!-- 选项按钮 -->
-                    <div v-if="message.options" class="message-options">
-                        <el-button v-for="option in message.options" :key="option.id" type="primary" plain size="large"
-                            class="option-button" @click="handleOptionClick(option)">
-                            {{ option.text }}
-                        </el-button>
-                    </div>
-                </div>
+        <!-- 主要内容区域 -->
+        <div class="main-content">
+            <!-- 筛选区域 -->
+            <div class="filter-section">
+                <el-form :model="filters" label-width="80px" class="filter-form">
+                    <el-form-item label="科室">
+                        <el-select v-model="filters.department" placeholder="选择科室">
+                            <el-option label="内科" value="internal" />
+                            <el-option label="外科" value="surgery" />
+                            <el-option label="儿科" value="pediatrics" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="日期">
+                        <el-date-picker v-model="filters.date" type="date" placeholder="选择日期" />
+                    </el-form-item>
+                </el-form>
+            </div>
+
+            <!-- 医生列表 -->
+            <div class="doctors-list">
+                <el-row :gutter="20">
+                    <el-col :span="8" v-for="doctor in doctors" :key="doctor.id">
+                        <el-card class="doctor-card" :body-style="{ padding: '0px' }">
+                            <div class="doctor-info">
+                                <el-avatar :size="64" :src="doctor.avatar" />
+                                <div class="info-text">
+                                    <h3>{{ doctor.name }}
+                                        <span class="title">{{ doctor.title }}</span>
+                                    </h3>
+                                    <p class="department">{{ doctor.department }}</p>
+                                    <p class="specialty">{{ doctor.specialty }}</p>
+                                </div>
+                            </div>
+                            <div class="schedule-section">
+                                <h4>可预约时间</h4>
+                                <div class="time-slots">
+                                    <el-button 
+                                        v-for="period in doctor.schedule[0].periods"
+                                        :key="period.time"
+                                        size="small"
+                                        :type="period.available ? 'primary' : 'info'"
+                                        :disabled="!period.available"
+                                        @click="handleAppointment(doctor, doctor.schedule[0].date, period.time)"
+                                    >
+                                        {{ period.time }}
+                                    </el-button>
+                                </div>
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped lang="less">
-.chat-page {
-    // min-height: 100vh;
-    height: calc(100vh - var(--header-height));
-    // 好看的渐变色
-    background: linear-gradient(to bottom, #93bdfc4a, #7aacf60f);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+.register-page {
+    min-height: calc(100vh - 60px);
+    background-color: #f5f7fa;
+    padding-bottom: 2rem;
 }
 
 .page-header {
     background: white;
-    padding: 1.5rem 0;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    flex-shrink: 0;
 
     .header-content {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 0 1rem;
 
@@ -174,145 +155,84 @@ onMounted(() => {
     }
 }
 
-.chat-container {
-    flex: 1;
-    max-width: 800px;
+.main-content {
+    max-width: 1200px;
     margin: 0 auto;
-    width: 100%;
-    padding: 1rem;
-    overflow-y: auto;
-    height: calc(100vh - 120px);
-    position: relative;
+    padding: 0 1rem;
+}
 
-    &::-webkit-scrollbar {
-        width: 6px;
-    }
+.filter-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 
-    &::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 3px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-        background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    .messages {
+    .filter-form {
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding-bottom: 1rem;
+        gap: 2rem;
     }
 }
 
-.message {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-width: 80%;
-    animation: messageSlideIn 0.3s ease-out;
-
-    &-system {
-        align-self: center;
-        max-width: 100%;
-
-        .message-content {
-            background-color: #f2f4f7;
-        }
-    }
-
-    &-user {
-        align-self: flex-end;
-
-        .message-content {
-            background-color: #e3f2fd;
-        }
-    }
-
-    &-doctor {
-        align-self: flex-start;
-
-        .message-content {
-            background-color: white;
-        }
-    }
-}
-
-.message-content {
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    position: relative;
-
-    .message-text {
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #2c3e50;
-        margin-bottom: 0.5rem;
-    }
-
-    .message-time {
-        font-size: 0.8rem;
-        color: #999;
-        text-align: right;
-    }
-}
-
-.message-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 0.5rem;
-
-    .option-button {
-        border-radius: 20px;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
+.doctors-list {
+    .doctor-card {
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
 
         &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
         }
-    }
-}
 
-@keyframes messageSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+        .doctor-info {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+            .info-text {
+                flex: 1;
 
-// 响应式设计
-@media (max-width: 768px) {
-    .chat-container {
-        height: calc(100vh - 100px);
+                h3 {
+                    margin: 0;
+                    font-size: 1.2rem;
+                    color: #2c3e50;
 
-        &::-webkit-scrollbar {
-            width: 4px;
+                    .title {
+                        font-size: 0.9rem;
+                        color: #5c6b7a;
+                        margin-left: 0.5rem;
+                    }
+                }
+
+                .department {
+                    color: var(--primary-color);
+                    margin: 0.5rem 0;
+                }
+
+                .specialty {
+                    color: #5c6b7a;
+                    font-size: 0.9rem;
+                    margin: 0;
+                }
+            }
         }
-    }
 
-    .message {
-        max-width: 90%;
-    }
+        .schedule-section {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
 
-    .message-content {
-        padding: 0.8rem;
-    }
+            h4 {
+                margin: 0 0 1rem 0;
+                color: #2c3e50;
+            }
 
-    .message-options {
-        .option-button {
-            font-size: 0.9rem;
+            .time-slots {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
         }
     }
 }

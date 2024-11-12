@@ -1,4 +1,8 @@
+import NotFound from '@/views/NotFound.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import PostDetail from '../views/forum/PostDetail.vue'
+import UserLogin from '../views/user/UserLogin.vue'
+import UserRegister from '../views/user/UserRegister.vue'
 
 export default createRouter({
     history: createWebHistory(),
@@ -55,7 +59,7 @@ export default createRouter({
             component: () => import('../views/Article.vue')
         },
         {
-            path: "/dom",
+            path: "/doc",
             children: [
                 {
                     name: "forum",
@@ -69,10 +73,38 @@ export default createRouter({
                 },
                 {
                     name: "createPost",
-                    path: "createPost",
+                    path: "create",
                     component: () => import('../views/forum/CreatePost.vue')
                 }
             ]
-        }
+        },
+        {
+            path: '/forum/post/:id',
+            name: 'post-detail',
+            component: PostDetail
+        },
+        {
+            path: '/user',
+            name: 'user',
+            component: () => import('../views/user/index.vue'),
+            redirect: '/user/login',
+            children: [
+                {
+                    path: 'login',
+                    name: 'login',
+                    component: UserLogin
+                },
+                {
+                    path: 'register',
+                    name: 'register',
+                    component: UserRegister
+                },
+            ]
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'NotFound',
+            component: NotFound
+        },
     ]
 })

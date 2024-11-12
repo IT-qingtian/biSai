@@ -8,17 +8,15 @@ const currentYear = new Date().getFullYear()
             <div class="footer-sections">
                 <div class="footer-section">
                     <h3>联系我们</h3>
-                    <p>电话：400-xxx-xxxx</p>
-                    <p>邮箱：contact@example.com</p>
-                    <p>地址：某某市某某区某某街道</p>
-                    <p>工作时间：周一至周五 9:00-18:00</p>
+                    <p>电话：0936-18189606574</p>
+                    <p>邮箱：hibernationznuo@foxmail.com</p>
+                    <p>地址：甘肃省兰州市皋兰县九龙江街1666号</p>
+                    <p>工作时间：周一至周日 9:00-21:00</p>
                 </div>
                 <div class="footer-section">
                     <h3>关注我们</h3>
-                    <p>微信公众号：xxxxxx</p>
-                    <p>微博：@xxxxxx</p>
-                    <p>抖音号：xxxxxx</p>
-                    <p>小红书：xxxxxx</p>
+                    <p>微信公众号：QingMengGY</p>
+                    <p>小红书：1140012560</p>
                 </div>
                 <div class="footer-section">
                     <h3>快速链接</h3>
@@ -26,8 +24,6 @@ const currentYear = new Date().getFullYear()
                     <p><router-link to="/terms">服务条款</router-link></p>
                     <p><router-link to="/faq">常见问题</router-link></p>
                     <p><router-link to="/join">加入我们</router-link></p>
-
-
                 </div>
             </div>
             <div class="footer-bottom">
@@ -39,71 +35,72 @@ const currentYear = new Date().getFullYear()
     </footer>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .footer {
     background-color: var(--bg-white);
     padding: 4rem 0 2rem;
     width: 100%;
     min-width: 1080px;
-    /* margin-top: auto; */
-}
 
-.footer-content {
-    width: 1000px;
-    margin: 0 auto;
-    padding: 0 40px;
-    box-sizing: border-box;
-}
+    &-content {
+        width: 1000px;
+        margin: 0 auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
 
-.footer-sections {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4rem;
-    margin-bottom: 3rem;
-}
+    &-sections {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4rem;
+        margin-bottom: 3rem;
+    }
 
-.footer-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-color);
-    font-weight: 600;
-}
+    &-section {
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
 
-.footer-section p {
-    color: var(--text-color);
-    margin-bottom: 0.8rem;
-    line-height: 1.6;
-}
+        p {
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
 
-.footer-bottom {
-    width: 100%;
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-}
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
 
-.footer-bottom p {
-    color: var(--text-color);
-    margin: 0.5rem 0;
-}
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
 
-.footer-bottom a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
+    &-bottom {
+        width: 100%;
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
 
-.footer-bottom a:hover {
-    color: var(--text-color);
-}
+        p {
+            color: var(--text-color);
+            margin: 0.5rem 0;
+        }
 
-.footer-section a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
 
-.footer-section a:hover {
-    opacity: 0.8;
+            &:hover {
+                color: var(--text-color);
+            }
+        }
+    }
 }
 </style>
